@@ -1,33 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { Navigate } from "react-router-dom";
+import React, { useState } from "react";
 import Cards from "./Cards";
-import WriteNote from "./WriteNote";
+import { useSelector } from "react-redux";
 
 function AllNotes() {
-  const [isOn, setIsOn] = useState(false);
-  // const storedTexts = JSON.parse(localStorage.getItem("text"));
+  const notes = useSelector((state) => state.notes);
 
-  // useEffect(() => {
-  //   localStorage.setItem("text", JSON.stringify(text));
-  // }, [text]);
-  const createNote = () => {
-    setIsOn(true);
+  const [searcheditem, setSearchedItem] = useState("");
+  const [filteredNote, setFilteredNote] = useState([]);
+
+  const handleSearch = () => {
+    const result = notes.filter((item) => item.title.includes(searcheditem));
+    setFilteredNote(result);
   };
   return (
-    <div className="bg-[#7D5DA6] h-screen">
-      <div className="p-[2rem]">
+    <div className="bg-[#7D5DA6] min-h-screen py-[5rem] px-[3rem] md:px-[6rem] ">
+      <div className=" mx-w-[1024px] mx-auto">
+        <h1 className="font-semibold text-xl mb-[2rem]">My Notes</h1>
+        <div className="flex justify-between">
+          <div className="mb-2 ">
+            <input
+              type="search"
+              placeholder="search your notes.."
+              value={searcheditem}
+              onChange={(e) => setSearchedItem(e.target.value)}
+              className="p-2 rounded-md w-auto bg-[#827292] mb-[2rem]"
+            ></input>
+          </div>
+          <div>
+            <button className="btn" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+        </div>
+
         <div>
-          <h1>My Notes</h1>
-          <div>Search</div>
+          {filteredNote.map((note) => (
+            <div key={note.title}>
+              {" "}
+              <p>{note.title}</p>
+            </div>
+          ))}
         </div>
         <div>
           <Cards />
         </div>
-        <div className="">
-          <PlusCircleIcon className="h-6 w-6 text-black" onClick={createNote} />
-        </div>
-        {isOn && <Navigate to="/newnote"></Navigate>}
       </div>
     </div>
   );

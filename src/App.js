@@ -4,10 +4,8 @@ import AllNotes from "./components/AllNotes";
 
 function App() {
   return (
-    <div className=" ">
-      <div className="">
-        <AllNotes />
-      </div>
+    <div className="">
+      <AllNotes />
     </div>
   );
 }

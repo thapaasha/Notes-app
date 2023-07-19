@@ -1,10 +1,14 @@
 import { useDispatch } from "react-redux";
 import { addNote } from "../redux/NoteSlice";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 function WriteNote() {
   const [text, setText] = useState();
+  useEffect(() => {
+    localStorage.setItem("text", JSON.stringify(text));
+  }, [text]);
+
   const defaultText = "Title: \n\nNote: ";
   const navigate = useNavigate();
   const dispatch = useDispatch();
